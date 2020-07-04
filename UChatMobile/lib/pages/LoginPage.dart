@@ -10,11 +10,14 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Center(child: Text("Login Page"))
-        ],
-      ),
+      backgroundColor: Colors.black,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+
+          ],
+        ),
+      )
     );
   }
 }
