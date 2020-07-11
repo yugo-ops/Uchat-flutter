@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 40.0,),
             Container(
               color: Colors.blue,
-              foregroundDecoration: Fo,
+              
               child: TextField(
                 style: TextStyle(color: Colors.white, fontSize: 20.0),
                 decoration: InputDecoration(
