@@ -22,17 +22,14 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             SizedBox(height: 40.0,),
-            Container(
-              color: Colors.blue,
-              
-              child: TextField(
-                style: TextStyle(color: Colors.white, fontSize: 20.0),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-                  hintText: 'Username',
-                  fillColor: Colors.white,
-                  contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                ),
+            TextField(
+              style: TextStyle(color: Colors.white, fontSize: 20.0),
+              decoration: InputDecoration(
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                hintText: 'Username',
+                hintStyle: TextStyle(color: Colors.white),
+                fillColor: Colors.white,
+                contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
               ),
             )
           ],
