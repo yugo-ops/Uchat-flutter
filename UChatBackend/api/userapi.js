@@ -134,8 +134,16 @@ router.post("/authenticateUser", (req, res) => {
       console.log("got here 2")
 
       console.log(data);
+      if(data == null){
+      Response.ResponseCode = "09";
+      Response.ResponseMessage = "User does not exist";
+      res.json(Response);
+      return;
+      }
+
       Response.ResponseCode = "00";
-      Response.ResponseMessage = "Test";
+      Response.ResponseMessage = "Authentication Successful";
+      Response.ResponseObject = data;
       res.json(Response);
       return;
     })
