@@ -4,7 +4,6 @@ const router = express.Router();
 const dbTables = require("../tables");
 var MongoClient = require("mongodb").MongoClient;
 
-
 var Response = {
   ResponseCode: String,
   ResponseMessage: String,
@@ -35,7 +34,7 @@ router.post("/register", (req, res) => {
     return;
   }
 
-  if(userName == null){
+  if (userName == null) {
     Response.ResponseCode = "03";
     Response.ResponseMessage = "User Name Is Required";
     res.json(Response);
@@ -73,7 +72,7 @@ router.post("/register", (req, res) => {
 
   //Save To Database
   MongoClient.connect(dbTables.Endpoint, (err, db) => {
-    if(err){
+    if (err) {
       Response.ResponseCode = "07";
       Response.ResponseMessage = err.message;
       res.json(Response);
@@ -81,21 +80,23 @@ router.post("/register", (req, res) => {
     }
 
     var uchatDB = db.db(dbTables.DatabaseName);
-    uchatDB.collection(dbTables.UserTable).insertOne(userObject, (insertErr, data) => {
-      if(insertErr){
-        Response.ResponseCode = "08";
-      Response.ResponseMessage = insertErr.message;
-      res.json(Response);
-      return;
-      }
+    uchatDB
+      .collection(dbTables.UserTable)
+      .insertOne(userObject, (insertErr, data) => {
+        if (insertErr) {
+          Response.ResponseCode = "08";
+          Response.ResponseMessage = insertErr.message;
+          res.json(Response);
+          return;
+        }
 
-      Response.ResponseCode = "00";
-    Response.ResponseMessage = "Registeration Successful!";
+        Response.ResponseCode = "00";
+        Response.ResponseMessage = "Registeration Successful!";
 
-    res.json(Response);
-    return;
-    })
-  })
+        res.json(Response);
+        return;
+      });
+  });
 });
 
 module.exports = router;

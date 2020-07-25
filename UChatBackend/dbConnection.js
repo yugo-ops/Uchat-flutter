@@ -13,14 +13,12 @@ MongoClient.connect(url + dbTables.DatabaseName, function (err, db) {
 
 //Create Collections
 MongoClient.connect(url, function (err, db) {
-  if (err)
-    throw err;
+  if (err) throw err;
   var uchatDB = db.db(dbTables.DatabaseName);
 
   //Adding User Collection
   uchatDB.createCollection(dbTables.UserTable, function (err, res) {
-    if (err)
-      throw err;
+    if (err) throw err;
     console.log("User Collection Created");
   });
 
