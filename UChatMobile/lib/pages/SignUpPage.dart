@@ -90,7 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             SizedBox(height: 20.5,),
             TextField(
-              obscureText: true,
+              obscureText: false,
               style: TextStyle(color: Colors.white, fontSize: 20.0),
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
