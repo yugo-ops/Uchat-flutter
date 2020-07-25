@@ -14,3 +14,5 @@ router.get("/register", (req, res) => {
   res.json(Response);
   return;
 });
+
+module.exports = router;
