@@ -119,14 +119,13 @@ class _SignUpPageState extends State<SignUpPage> {
               obscureText: true,
               style: TextStyle(color: Colors.white, fontSize: 20.0),
               keyboardType: TextInputType.number,
-              maxLength: 4 ,
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
                   // width: 0.0 produces a thin "hairline" border
                   borderSide: const BorderSide(color: Colors.blue, width: 1.5),
                 ),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-                hintText: 'Pin',
+                hintText: 'Phone Number',
                 fillColor: Colors.white,
                 hintStyle: TextStyle(color: Colors.white),
                 contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
