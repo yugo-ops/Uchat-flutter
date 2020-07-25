@@ -1,4 +1,4 @@
-export const User = {
+const User = {
   ID: Number,
   LastName: String,
   FirstName: String,
@@ -7,3 +7,5 @@ export const User = {
   Pin: String,
   PhoneNumber: String,
 };
+
+module.exports = User;
