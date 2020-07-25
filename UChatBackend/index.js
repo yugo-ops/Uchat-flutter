@@ -4,8 +4,8 @@ const cors = require("cors");
 const bodyparser = require("body-parser");
 const methodOverride = require("method-override");
 const dbConnection = require("./dbConnection");
-const rootApi = require("./api/rootapi");
-const userApi = require("./api/userapi");
+// const rootApi = require("./api/rootapi");
+// const userApi = require("./api/userapi");
 
 //setting up environment
 var app = express();
@@ -17,5 +17,5 @@ http.createServer(app).listen(9000, () => {
   console.log("Server start on port 9000");
 });
 
-app.use("/", rootApi);
-app.use("/user", userApi);
+// app.use("/", rootApi);
+// app.use("/user", userApi);

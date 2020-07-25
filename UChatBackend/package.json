@@ -9,7 +9,9 @@
   "author": "Adebayo And Joshua",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
+    "method-override": "^3.0.0",
     "mongodb": "^3.5.9"
   }
 }
