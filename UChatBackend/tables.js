@@ -1,2 +1,2 @@
-export const UserTable = "users";
-export const ChatTable = "chats";
+exports.UserTable = "users";
+exports.ChatTable = "chats";
