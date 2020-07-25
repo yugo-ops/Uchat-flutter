@@ -1,9 +1,9 @@
 var MongoClient = require("mongodb").MongoClient;
 const dbTables = require("./tables");
-var url = "mongodb://localhost:27017/";
+var url = dbTables.Endpoint;
 
 //Create Database Connection
-MongoClient.connect(url + "uchat", function (err, db) {
+MongoClient.connect(url + dbTables.DatabaseName, function (err, db) {
   if (err) {
     throw err;
   }
@@ -13,14 +13,16 @@ MongoClient.connect(url + "uchat", function (err, db) {
 
 //Create Collections
 MongoClient.connect(url, function (err, db) {
-  if (err) throw err;
-  var uchatDB = db.db("uchat");
+  if (err)
+    throw err;
+  var uchatDB = db.db(dbTables.DatabaseName);
 
   //Adding User Collection
   uchatDB.createCollection(dbTables.UserTable, function (err, res) {
-    if (err) throw err;
+    if (err)
+      throw err;
     console.log("User Collection Created");
   });
 
-  module.exports = uchatDB;
+  db.close();
 });
