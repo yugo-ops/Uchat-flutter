@@ -99,4 +99,24 @@ router.post("/register", (req, res) => {
   });
 });
 
+router.post("/authenticateUser", (req, res) => {
+  const username = req.body.UserName;
+  const password = req.body.Password;
+
+  if(username == null || password == null){
+    Response.ResponseCode = "-01";
+    Response.ResponseMessage = "Incomplete Credentials Passed.";
+    res.json(Response);
+    return;
+  }
+
+  //Connect To The Database Server
+  
+  //Connect To The Database
+  //Check If Record Exists On User Table
+  //    If yes => Send the user record back to the client with response code 00
+  //    If no => Send the failed response back to the client
+
+})
+
 module.exports = router;
