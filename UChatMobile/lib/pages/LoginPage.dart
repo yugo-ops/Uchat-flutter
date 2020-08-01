@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uchat_flutter_01/pages/SignUpPage.dart';
+import 'package:uchat_flutter_01/services/UserService.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,6 +9,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    testGuy();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,5 +161,9 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
         ));
+  }
+
+  void testGuy() async {
+    await UserService().AuthenticateUser("Admin", "password");
   }
 }
