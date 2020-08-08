@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uchat_flutter_01/services/UserService.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -6,6 +7,91 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  final pinController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+   // testGuy();
+  }
+
+  // ignore: non_constant_identifier_names
+  Future<void> AuthenticateUser() async {
+    String username = usernameController.text.trim();
+    String password = passwordController.text.trim();
+    String firstName = firstNameController.text.trim();
+    String lastName = lastNameController.text.trim();
+    String phoneNumber = phoneNumberController.text.trim();
+    String pin = pinController.text.trim();
+
+    if(username.isEmpty || password.isEmpty||firstName.isEmpty||lastName.isEmpty||phoneNumber.isEmpty||pin.isEmpty){
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: new Text('Invalid'),
+              content: new Text("Please fill all fields"),
+              actions: <Widget>[
+                new FlatButton(
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                    child: new Text("Retry!"))
+              ],
+            );
+          }
+      );
+    }
+    else{
+      UserService userService = new UserService();
+      bool result = await userService.Register(username, password, firstName, lastName, phoneNumber, pin);
+      if(result){
+        //Log the user into the application
+        await showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: new Text('Success'),
+                content: new Text("Registration Successful"),
+                actions: <Widget>[
+                  new FlatButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      child: new Text("OK!"))
+                ],
+              );
+            }
+        );
+      }
+      else{
+        //Display error message
+        await showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: new Text('Failed'),
+                content: new Text("Registration Failed! " + userService.errorMessage),
+                actions: <Widget>[
+                  new FlatButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      child: new Text("Retry!"))
+                ],
+              );
+            }
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +127,6 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             SizedBox(height: 20.0,),
             TextField(
-              obscureText: true,
               style: TextStyle(color: Colors.white, fontSize: 20.0),
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(

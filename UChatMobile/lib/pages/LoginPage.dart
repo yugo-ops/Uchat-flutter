@@ -9,12 +9,81 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
 
     testGuy();
+  }
+
+  // ignore: non_constant_identifier_names
+  Future<void> AuthenticateUser() async {
+    String username = usernameController.text.trim();
+    String password = passwordController.text.trim();
+
+    if(username.isEmpty || password.isEmpty){
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: new Text('Invalid'),
+            content: new Text("Please fill all fields"),
+            actions: <Widget>[
+              new FlatButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  child: new Text("Retry!"))
+            ],
+          );
+        }
+      );
+    }
+    else{
+      UserService userService = new UserService();
+      bool result = await userService.AuthenticateUser(username, password);
+      if(result){
+        //Log the user into the application
+        await showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: new Text('Success'),
+                content: new Text("Login Validation Successful"),
+                actions: <Widget>[
+                  new FlatButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      child: new Text("OK!"))
+                ],
+              );
+            }
+        );
+      }
+      else{
+        //Display error message
+        await showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: new Text('Failed'),
+                content: new Text("Login Validation Failed! " + userService.errorMessage),
+                actions: <Widget>[
+                  new FlatButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      child: new Text("Retry!"))
+                ],
+              );
+            }
+        );
+      }
+    }
   }
 
   @override
@@ -39,6 +108,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               TextField(
                 style: TextStyle(color: Colors.white, fontSize: 20.0),
+                controller: usernameController,
                 decoration: InputDecoration(
                   enabledBorder: const OutlineInputBorder(
                     // width: 0.0 produces a thin "hairline" border
@@ -58,6 +128,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               TextField(
                 obscureText: true,
+                controller: passwordController,
                 style: TextStyle(color: Colors.white, fontSize: 20.0),
                 decoration: InputDecoration(
                   enabledBorder: const OutlineInputBorder(
@@ -152,7 +223,9 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.blue,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
-                onPressed: () {},
+                onPressed: () async {
+                  await AuthenticateUser();
+                },
                 child: Text(
                   "LogIn",
                   style: TextStyle(fontSize: 20.0),
