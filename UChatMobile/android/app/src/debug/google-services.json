@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "4722883482",
+    "firebase_url": "https://uchatmobile-dface.firebaseio.com",
+    "project_id": "uchatmobile-dface",
+    "storage_bucket": "uchatmobile-dface.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:4722883482:android:185dd9f60892fef2c4d823",
+        "android_client_info": {
+          "package_name": "com.UChat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "4722883482-4dmdricvv2gv062mdr13rf8cdl2ea64e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUI1PnIbMXknEgCLE6NM-1IgFLyImw-cU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "4722883482-4dmdricvv2gv062mdr13rf8cdl2ea64e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
