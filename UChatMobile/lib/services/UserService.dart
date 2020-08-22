@@ -5,7 +5,7 @@ import 'package:uchat_flutter_01/models/Response.dart';
 import 'package:uchat_flutter_01/models/User.dart';
 
 class UserService{
-  String baseUrl = "http://192.168.8.101:9000/user";
+  String baseUrl = "http://192.168.8.100:9000/user";
   String errorMessage;
 
   UserService();
@@ -26,6 +26,41 @@ class UserService{
       });
 
       var response = await http.post(baseUrl + "/authenticateUser", headers: headers, body: parameters);
+      Map jsonData = jsonDecode(response.body);
+      Response resp = new Response().fromJson(jsonData);
+      if(resp.ResponseCode == "00"){
+        result = true;
+      }
+      else{
+        result = false;
+        errorMessage = resp.ResponseMessage;
+      }
+    }
+    catch(error){
+      result = false;
+      print("An error occurred at authenticate User $error");
+    }
+
+    return result;
+  }
+
+  // ignore: non_constant_identifier_names
+  Future<bool> AuthenticateUserByPin(String username, String pin) async {
+    bool result = false;
+    try{
+      //Write Methods here
+      //First Set the headers
+      Map<String, String> headers = {
+        "Accept":"application/json",
+        "Content-Type":"application/json"
+      };
+
+      final parameters = jsonEncode({
+        'UserName':username,
+        'Pin': pin
+      });
+
+      var response = await http.post(baseUrl + "/authenticateUserByPin", headers: headers, body: parameters);
       Map jsonData = jsonDecode(response.body);
       Response resp = new Response().fromJson(jsonData);
       if(resp.ResponseCode == "00"){

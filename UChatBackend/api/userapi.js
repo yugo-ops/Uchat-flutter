@@ -155,4 +155,60 @@ router.post("/authenticateUser", (req, res) => {
 
 })
 
+router.post("/authenticateUserByPin", (req, res) => {
+  const username = req.body.UserName;
+  const pin = req.body.Pin;
+
+  userObject.Username = username;
+  userObject.Pin =pin;
+
+  if(username == null || pin == null){
+    Response.ResponseCode = "-01";
+    Response.ResponseMessage = "Incomplete Credentials Passed.";
+    res.json(Response);
+    return;
+  }
+
+  //Connect To The Database Server
+  MongoClient.connect(dbTables.Endpoint, (err, db) => {
+    if (err) {
+      Response.ResponseCode = "07";
+      Response.ResponseMessage = err.message;
+      res.json(Response);
+      return;
+    }
+    var uchatDB = db.db(dbTables.DatabaseName);
+    console.log("gOT HERE 1")
+    uchatDB.collection(dbTables.UserTable).findOne(userObject, (err, data) => {
+      if(err){
+        Response.ResponseCode = "08";
+        Response.ResponseMessage = err.message;
+         res.json(Response);
+        return;
+      }
+
+      console.log("got here 2")
+
+      console.log(data);
+      if(data == null){
+      Response.ResponseCode = "09";
+      Response.ResponseMessage = "User does not exist";
+      res.json(Response);
+      return;
+      }
+
+      Response.ResponseCode = "00";
+      Response.ResponseMessage = "Authentication Successful";
+      Response.ResponseObject = data;
+      res.json(Response);
+      return;
+    })
+  })
+  //Connect To The Database  
+  //Check If Records Exists On User Table
+  //    If yes => Send the user record back to the client with response code 00
+  //    If no => Send the failed response back to the client
+
+})
+
 module.exports = router;

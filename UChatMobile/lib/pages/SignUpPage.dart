@@ -9,6 +9,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  final retypePasswordController = TextEditingController();
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final phoneNumberController = TextEditingController();
@@ -25,18 +26,37 @@ class _SignUpPageState extends State<SignUpPage> {
   Future<void> AuthenticateUser() async {
     String username = usernameController.text.trim();
     String password = passwordController.text.trim();
+    String retypedPassword = retypePasswordController.text.trim();
     String firstName = firstNameController.text.trim();
     String lastName = lastNameController.text.trim();
     String phoneNumber = phoneNumberController.text.trim();
     String pin = pinController.text.trim();
 
-    if(username.isEmpty || password.isEmpty||firstName.isEmpty||lastName.isEmpty||phoneNumber.isEmpty||pin.isEmpty){
+    if(username.isEmpty || password.isEmpty||firstName.isEmpty||lastName.isEmpty||phoneNumber.isEmpty||pin.isEmpty || retypedPassword.isEmpty){
       showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
               title: new Text('Invalid'),
               content: new Text("Please fill all fields"),
+              actions: <Widget>[
+                new FlatButton(
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                    child: new Text("Retry!"))
+              ],
+            );
+          }
+      );
+    }
+    else if(password != retypedPassword){
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: new Text('Invalid'),
+              content: new Text("Passwords do not match"),
               actions: <Widget>[
                 new FlatButton(
                     onPressed: (){
@@ -113,6 +133,7 @@ class _SignUpPageState extends State<SignUpPage> {
             SizedBox(height: 40.0,),
             TextField(
               style: TextStyle(color: Colors.white, fontSize: 20.0),
+              controller: firstNameController,
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
                   // width: 0.0 produces a thin "hairline" border
@@ -128,6 +149,7 @@ class _SignUpPageState extends State<SignUpPage> {
             SizedBox(height: 20.0,),
             TextField(
               style: TextStyle(color: Colors.white, fontSize: 20.0),
+              controller: lastNameController,
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
                   // width: 0.0 produces a thin "hairline" border
@@ -142,8 +164,25 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             SizedBox(height: 20.0,),
             TextField(
+              style: TextStyle(color: Colors.white, fontSize: 20.0),
+              controller: usernameController,
+              decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                  // width: 0.0 produces a thin "hairline" border
+                  borderSide: const BorderSide(color: Colors.blue, width: 1.5),
+                ),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                hintText: 'UserName',
+                fillColor: Colors.white,
+                hintStyle: TextStyle(color: Colors.white),
+                contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+              ),
+            ),
+            SizedBox(height: 20.0,),
+            TextField(
               obscureText: true,
               style: TextStyle(color: Colors.white, fontSize: 20.0),
+              controller: passwordController,
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
                   // width: 0.0 produces a thin "hairline" border
@@ -161,6 +200,7 @@ class _SignUpPageState extends State<SignUpPage> {
             TextField(
               obscureText: true,
               style: TextStyle(color: Colors.white, fontSize: 20.0),
+              controller: retypePasswordController,
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
                   // width: 0.0 produces a thin "hairline" border
@@ -177,6 +217,7 @@ class _SignUpPageState extends State<SignUpPage> {
             TextField(
               obscureText: false,
               style: TextStyle(color: Colors.white, fontSize: 20.0),
+              controller: phoneNumberController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 enabledBorder: const OutlineInputBorder(
@@ -194,6 +235,7 @@ class _SignUpPageState extends State<SignUpPage> {
             TextField(
               obscureText: true,
               style: TextStyle(color: Colors.white, fontSize: 20.0),
+              controller: pinController,
               keyboardType: TextInputType.number,
               maxLength: 4 ,
               decoration: InputDecoration(
@@ -212,7 +254,9 @@ class _SignUpPageState extends State<SignUpPage> {
               elevation: 2.0,
               color: Colors.blue,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              onPressed: () {},
+              onPressed: () {
+                AuthenticateUser();
+              },
               child: Text("SignIn", style: TextStyle(fontSize: 20.0),),
             ),
           ],

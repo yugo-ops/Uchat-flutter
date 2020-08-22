@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:4722883482:android:185dd9f60892fef2c4d823",
         "android_client_info": {
-          "package_name": "com.UChat"
+          "package_name": "uchatflutter.uchat_flutter_01"
         }
       },
       "oauth_client": [

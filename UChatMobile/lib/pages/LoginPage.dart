@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:uchat_flutter_01/pages/ChatPage.dart';
 import 'package:uchat_flutter_01/pages/SignUpPage.dart';
 import 'package:uchat_flutter_01/services/UserService.dart';
 
@@ -11,6 +12,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  final pinController =TextEditingController();
 
   @override
   void initState() {
@@ -23,7 +25,6 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> AuthenticateUser() async {
     String username = usernameController.text.trim();
     String password = passwordController.text.trim();
-
     if(username.isEmpty || password.isEmpty){
       showDialog(
         context: context,
@@ -47,22 +48,65 @@ class _LoginPageState extends State<LoginPage> {
       bool result = await userService.AuthenticateUser(username, password);
       if(result){
         //Log the user into the application
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChatPage()));
+          }
+      else{
+        //Display error message
         await showDialog(
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: new Text('Success'),
-                content: new Text("Login Validation Successful"),
+                title: new Text('Failed'),
+                content: new Text("Login Validation Failed! " + userService.errorMessage),
                 actions: <Widget>[
                   new FlatButton(
                       onPressed: (){
                         Navigator.pop(context);
                       },
-                      child: new Text("OK!"))
+                      child: new Text("Retry!"))
                 ],
               );
             }
         );
+      }
+    }
+  }
+
+  // ignore: non_constant_identifier_names
+  Future<void> AuthenticateUserByPin() async {
+    String username = usernameController.text.trim();
+    String pin = pinController.text.trim();
+
+    if(username.isEmpty || pin.isEmpty){
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: new Text('Invalid'),
+              content: new Text("Please fill all fields"),
+              actions: <Widget>[
+                new FlatButton(
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                    child: new Text("Retry!"))
+              ],
+            );
+          }
+      );
+    }
+    else{
+      UserService userService = new UserService();
+      bool result = await userService.AuthenticateUserByPin(username, pin);
+      if(result){
+        //Log the user into the application
+        await Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatPage()));
       }
       else{
         //Display error message
@@ -157,16 +201,32 @@ class _LoginPageState extends State<LoginPage> {
                           builder: (context) {
                             return AlertDialog(
                               title: Text("Forgot Password"),
-                              content: TextField(
-                                obscureText: true,
-                                keyboardType: TextInputType.number,
-                                maxLength: 4,
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(32.0)),
-                                    labelText: "Input Back-up Pin",
-                                    labelStyle: TextStyle(color: Colors.blue)),
+                              content: SingleChildScrollView(
+                                child: Column(
+                                  children: <Widget>[
+                                    TextField(
+                                      controller: usernameController,
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(32.0)),
+                                          labelText: "Input Username",
+                                          labelStyle: TextStyle(color: Colors.blue)),
+                                    ),
+                                    TextField(
+                                      obscureText: true,
+                                      controller: pinController,
+                                      keyboardType: TextInputType.number,
+                                      maxLength: 4,
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(32.0)),
+                                          labelText: "Input Back-up Pin",
+                                          labelStyle: TextStyle(color: Colors.blue)),
+                                    ),
+                                  ],
+                                ),
                               ),
                               actions: <Widget>[
                                 Row(
@@ -180,8 +240,8 @@ class _LoginPageState extends State<LoginPage> {
                                       width: 120.0,
                                     ),
                                     new FlatButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
+                                        onPressed: () async {
+                                          await AuthenticateUserByPin();
                                         },
                                         child: Text("Ok")),
                                   ],
@@ -202,7 +262,7 @@ class _LoginPageState extends State<LoginPage> {
                   GestureDetector(
                     onTap: () async {
                       //push to sign up page
-                      await Navigator.push(
+                          await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => SignUpPage()));
