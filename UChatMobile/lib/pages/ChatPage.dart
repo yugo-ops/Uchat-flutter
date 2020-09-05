@@ -50,7 +50,7 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: Colors.blue,
       ),
       body: ListView.builder(
-          itemCount: 200,
+          itemCount: 2,
           itemBuilder: (BuildContext context, int index){
             return ListTile(
               leading: Icon(Icons.perm_identity, color: Colors.blue,),

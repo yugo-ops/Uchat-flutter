@@ -5,7 +5,7 @@ import 'package:uchat_flutter_01/models/Response.dart';
 import 'package:uchat_flutter_01/models/User.dart';
 
 class UserService{
-  String baseUrl = "http://192.168.8.100:9000/user";
+  String baseUrl = "http://192.168.8.101:9000/user";
   String errorMessage;
 
   UserService();

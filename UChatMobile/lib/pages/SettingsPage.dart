@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -6,6 +8,15 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  Future<File> imageFile;
+
+  //Open gallery
+  pickImageFromGallery(ImageSource source) {
+    setState(() {
+      imageFile = ImagePicker.pickImage(source: source);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,12 +27,20 @@ class _SettingsPageState extends State<SettingsPage> {
         centerTitle: true,
         title: Text("Settings"),
       ),
-      body: Column(
-        children: <Widget>[
-          Center(child: Icon(Icons.add_a_photo, size: 80.0, color: Colors.white,)),
-
-        ],
+      body: Center(
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FlatButton(
+              child: Icon(Icons.add_a_photo, size: 80.0, color: Colors.white),
+              onPressed: () {
+                pickImageFromGallery(ImageSource.gallery);
+              },
+            ),
+          ],
+        ),
       )
+
     );
   }
 }
